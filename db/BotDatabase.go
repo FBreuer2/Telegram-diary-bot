@@ -63,7 +63,8 @@ func (bD *BotDatabase) AddText(text string, username string) {
 }
 
 // XXX: Figure out how to get a text here
-func (bD *BotDatabase) AddImage(text string, username string) {
+func (bD *BotDatabase) AddAndDownloadImage(photos *[]tgbotapi.PhotoSize, username string) {
+
 }
 
 func (bD *BotDatabase) AddLocation(location *tgbotapi.Location, username string) {

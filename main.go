@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	BotDatabase "github.com/FBreuer2/telegram-diary/db"
@@ -48,8 +49,27 @@ func main() {
 		}
 
 		if update.Message.Photo != nil {
-			log.Println("New photo received")
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Photo saved")
+			log.Printf(" %d new photo(s) received", len(*update.Message.Photo))
+
+			for _, photo := range *update.Message.Photo {
+				file, _ := bot.GetFile(tgbotapi.FileConfig{
+					FileID: photo.FileID,
+				})
+
+				url := file.Link(BOT_TOKEN)
+
+				resp, err := http.Get(url)
+				if err != nil {
+					continue
+				}
+
+				defer resp.Body.Close()
+
+				resp.Body
+
+			}
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Photo(s) saved")
 			bot.Send(msg)
 			continue
 		}
